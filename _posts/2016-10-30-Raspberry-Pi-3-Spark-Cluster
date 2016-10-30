@@ -6,11 +6,9 @@ tags: [data science,spark,raspberry pi]
 categories: [data science]
 ---
 
-In this post I will go through the hardware and setup steps I went through to create a 2-node raspberry pi spark cluster. I'm using two brand-new raspberry pi 3 which, while not making this a very powerful spark cluster, should hopefully still give me some hardware to power some of my future spark/ spark streaming/ kafka/ baidu paddle paddle projects. The Pi 3 has a quad-core 1.2GHz processor with 1G of RAM, a Broadcom VideoCore IV GPU making it a nice low-cost system for some first experimentations with spark. The GPU promises some interesting future experiments with distributed GPU deep learning, but I'm getting ahead of myself.
-
-<!-- more -->
-
 Apache Spark is a fast-growing open-source framework for distributed computing that has a lot of promise for the world of data science and I really wanted a project that would allow me to play around with Spark, and the libraries that it includes. Spark, at it's core is an engine for running computations on distributed datasets using Resilient Distributed Datasets (RDDs). It was developped to overcome limitations to the MapReduce framework, in which intermediate results of reduce operations have to be written to disk before being used again. The RDD allows Spark to keep intermediate results in memory in a distributed and fault-tolerant way. This means that certain computations can be run two orders of magnitude faster with Spark compared with MapReduce.
+
+In this post I will go through the hardware and setup steps I went through to create a 2-node raspberry pi spark cluster. I'm using two brand-new raspberry pi 3 which, while not making this a very powerful spark cluster, should hopefully still give me some hardware to power some of my future spark/ spark streaming/ kafka/ baidu paddle paddle projects. The Pi 3 has a quad-core 1.2GHz processor with 1G of RAM, a Broadcom VideoCore IV GPU making it a nice low-cost system for some first experimentations with spark. The GPU promises some interesting future experiments with distributed GPU deep learning, but I'm getting ahead of myself.
 
 There are already a few blog posts out there detailing how to install spark on raspberry pi and setting up a cluster, however none of them (as far as I could find on first pass) talk about Spark 2.0 which is still fairly new at the time of writing and none use the raspi 3.
 
@@ -49,38 +47,19 @@ iface eth0 inet static
 
 ## download spark binary
 
-The easiest way to install Spark is to download the spark binary and uncompress it. Look for the link to the latest version [here](http://spark.apache.org/downloads.html), and copy the direct download URL then run on your raspi:
+The easiest way to install Spark is to download the spark binary and uncompress it. Look for the link to the latest version [here]{http://spark.apache.org/downloads.html}, and copy the direct download URL then run on your raspi:
 {% highlight css %}
 wget [insert URL]
 tar -zxvf [downloaded .tgz file]
 {% endhighlight %}
-Copy the newly created folder wherever you prefer (I copied mine to /opt/spark), and add the /bin folder to the PATH environment variable (e.g. by adding `export PATH=$PATH:/path/to/spark/bin` to your ~/.bashrc file). You should now be able to type `spark-shell` in a terminal and get access to the spark shell with a spark context.
+Copy the newly created folder wherever you prefer (I copied mine to /usr/local/spark), and add the /bin folder to the PATH environment variable (e.g. by adding `export PATH=$PATH:/path/to/spark/bin` to your ~/.bashrc file). You should now be able to type `spark-shell` in a terminal and get access to the spark shell with a spark context.
+
+## set up spark user
 
 To run a spark cluster, it's a good idea to set up a user account on all Pis dedicated for spark use with `sudo adduser spark`
 
 # setting up the cluster
 
-Now that spark is up and running on all the nodes, now is time to define master and slave nodes and get spark to manage a truly distributed cluster.
-
-In your spark directory, you should have a template shell script to define your spark environment called `spark-env.sh.template`. For each Pi, copy this to a new `spark-env.sh` file and add the following to the end:
-{% highlight css %}
-SPARK_MASTER_HOST=[eth0 IP of your master node]
-SPARK_WORKER_MEMORY=768m
-SPARK_LOCAL_IP=[eth0 IP the node]
-{% endhighlight %}
-
-Assuming you set up a new user called spark on each Pi, add the following to the slaves file:
-{% highlight css %}
-spark@[eth0 IP of the slave node]
-{% endhighlight %}
-If you have more than one slave, add them all to this file and propagate these changes to all the nodes
-
-Once this is done, you should be able to run the start-master.sh and start-slaves.sh shell scripts. One option is to run both of these from the master node, and if the configuration is set correctly, we can start a spark-shell or submit a job to spark using the master and slaves as executors. Make sure to check the logs that are created when running start-master.sh and start-slaves.sh to make no errors were raised. You should also be able to check the web UI generated when calling spark-shell to check that there are the correct number of executors.
+## spark slaves and master
 
 [insert image of cluster in all its glory]
-
-That should cover the steps I followed when creating my cluster. I wrote this post a while after I set the cluster up, so I may have forgotten a couple of steps, but I'll add them to the post as they come back to me.
-
-#Other Resources
-
-Here are a few links to resources that were extremely useful when going through this process myself.
