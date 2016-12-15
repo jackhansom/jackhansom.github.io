@@ -6,7 +6,7 @@ tags: [data science,spark,raspberry pi]
 categories: [data science]
 ---
 
-In this post I will go through the hardware and setup steps I went through to create a 2-node raspberry pi spark cluster. I'm using two brand-new raspberry pi 3 which, while not making this a very powerful spark cluster, should hopefully still give me some hardware to power some of my future spark/ spark streaming/ kafka/ baidu paddle paddle projects. The Pi 3 has a quad-core 1.2GHz processor with 1G of RAM, a Broadcom VideoCore IV GPU making it a nice low-cost system for some first experimentations with spark. The GPU promises some interesting future experiments with distributed GPU deep learning, but I'm getting ahead of myself.
+In this post I will go through the hardware and setup steps I went through to create a 2-node raspberry pi spark cluster. I'm using two brand-new raspberry pi 3 which, while not making this a very powerful spark cluster, should hopefully still give me some hardware to power some of my future Spark and Spark streaming projects. The Pi 3 has a quad-core 1.2GHz processor with 1G of RAM, a Broadcom VideoCore IV GPU making it a nice low-cost system for some first experimentations with spark. The GPU promises some interesting future experiments with distributed GPU deep learning, but I'm getting ahead of myself.
 
 <!-- more -->
 
@@ -75,7 +75,12 @@ spark@[eth0 IP of the slave node]
 {% endhighlight %}
 If you have more than one slave, add them all to this file and propagate these changes to all the nodes
 
-Once this is done, you should be able to run the start-master.sh and start-slaves.sh shell scripts. One option is to run both of these from the master node, and if the configuration is set correctly, we can start a spark-shell or submit a job to spark using the master and slaves as executors. Make sure to check the logs that are created when running start-master.sh and start-slaves.sh to make no errors were raised. You should also be able to check the web UI generated when calling spark-shell to check that there are the correct number of executors.
+Once this is done, you should be able to run the start-master.sh and start-slaves.sh shell scripts from the master node, and if the configuration is set correctly, we can start a spark-shell or submit a job to spark using the master and slaves as executors. To start a spark shell using the cluster, check the master URL at the UI at port 8080, and run the following:
+{% highlight css %}
+spark-shell --master spark://[master_ip]:7077
+{% endhighlight %}
+This should now be an interactive spark shell running on the raspberry pi cluster!
+Make sure to check the logs that are created when running start-master.sh and start-slaves.sh to make no errors were raised. You should also be able to check the web UI generated at port 8080 and the UI at port 4040 when calling spark-shell to check that there are the correct number of executors, and that they are alive and well.
 
 [insert image of cluster in all its glory]
 
@@ -84,3 +89,7 @@ That should cover the steps I followed when creating my cluster. I wrote this po
 #Other Resources
 
 Here are a few links to resources that were extremely useful when going through this process myself.
+
+[https://darrenjw2.wordpress.com/2015/04/17/installing-apache-spark-on-a-raspberry-pi-2/](https://darrenjw2.wordpress.com/2015/04/17/installing-apache-spark-on-a-raspberry-pi-2/)
+
+[http://bailiwick.io/2015/07/07/create-your-own-apache-spark-cluster-using-raspberry-pi-2/](http://bailiwick.io/2015/07/07/create-your-own-apache-spark-cluster-using-raspberry-pi-2/)
