@@ -8,11 +8,11 @@ jsarr:
 - graphs/test_graph.js
 ---
 
-This is a quick showcase of some data I collected for one week during the French presidential primaries for the republicans
+This is a quick showcase of some data I collected for one week during the French presidential primaries for the republicans. For this I used my raspi-based spark cluster to stream tweets relating to the election. Here I show some scala code to process this dataset to create interesting network visualizations out of it.
 
-## Some Spark code for the tweet streaming
+<!-- more -->
 
-## Some Scala code for the network creation
+## Processing of tweets using scala
 
 First define nodes, edges and weighted edges as case clases:
 
@@ -157,13 +157,14 @@ val (weightedEdges, weightedNodes) = createHashtagNetwork(listified)
 
 ## Results
 
+To visualise how people are talking about the election, one intuitive way is to use physics. Here we take the nodes of the networks (either individual hashtags, or common mentioned twitter handles) and have them interact with other nodes via some interaction, modeling a forces between the nodes which are attractive if the two nodes have a weighty edge between them and slightly repulsive otherwise. We can use vis.js to generate some pretty cool intuitive visualisations of the conversation on twitter around the election.
+
+The following shows the network of users tweeting about the French election:
 
 <div id="mynetwork"></div>
 
-Maybe write quick post on what a quantum dot is
+The following shows the network of hashtags related the French election:
 
 <div id="hashtag_network"></div>
-## What are phonons?
 
-## Summary of paper
-
+Of course, once the graphs have settled into a local equilibrium, the exact positions of the nodes doesn't have an exact interpretation but broadly speaking the related hashtags cluster together. Most times the Fillon-related hashtags cluster together, then hashtags related to the debates cluster together, etc. 

@@ -38,6 +38,14 @@ var options = {
   width:'500px',
         nodes: {
           shape: 'dot',
+          color: {
+            background: '#6c5b7b',
+            border: '#355c7d',
+            highlight: {
+              background: '#f8b195',
+              border: '#f67280'
+            }
+          },
           scaling: {
             customScalingFunction: function (min,max,total,value) {
               return value;
@@ -82,6 +90,7 @@ function redrawAll(gephiJSON) {
   });
 
   // add the parsed data to the DataSets.
+  console.log(parsed.nodes['0']);
   nodes.add(parsed.nodes);
   edges.add(parsed.edges);
   network.fit(); // zoom to fit
@@ -127,6 +136,14 @@ var optionsHT = {
   width:'500px',
         nodes: {
           shape: 'dot',
+          color: {
+            background: '#6c5b7b',
+            border: '#355c7d',
+            highlight: {
+              background: '#f8b195',
+              border: '#f67280'
+            }
+          },
           scaling: {
             customScalingFunction: function (min,max,total,value) {
               return value;
