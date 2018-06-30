@@ -37,3 +37,7 @@ circle {
  .plot-bg {
    fill: #ffffff;
  }
+
+ td, th {
+  padding: 1px 4px;
+}
