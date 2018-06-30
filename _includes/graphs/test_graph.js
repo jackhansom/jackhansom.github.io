@@ -90,7 +90,6 @@ function redrawAll(gephiJSON) {
   });
 
   // add the parsed data to the DataSets.
-  console.log(parsed.nodes['0']);
   nodes.add(parsed.nodes);
   edges.add(parsed.edges);
   network.fit(); // zoom to fit
