@@ -2,10 +2,11 @@ var container = document.getElementById('footballGameSim');
 
 var jstat = this.jStat;
 
-function tabulate(data, columns) {
-        if (!d3.select("#footballGameSim").select("table").empty()) {
+function tabulate(data, columns, remove=true) {
+        if (!d3.select("#footballGameSim").select("table").empty() && remove) {
             d3.select("#footballGameSim").selectAll("table").remove()
         }
+
         var table = d3.select('#footballGameSim').append('table')
         var thead = table.append('thead')
         var tbody = table.append('tbody');
@@ -113,6 +114,28 @@ d3.json("/assets/data/wc_team_latents.json", function(error, data) {
         }
         keysSorted = Object.keys(result_counts).sort(function(a,b){return result_counts[a]<result_counts[b]})
 
+        winPercentage = {
+            team1Win:0.,
+            draw: 0.,
+            team2Win: 0.
+        }
+        for (i in score_samples_team1) {
+            if (score_samples_team1[i] == score_samples_team2[i]) {
+                winPercentage["draw"] = winPercentage["draw"] + 100. / nSamples
+            }
+            else {
+                if (score_samples_team1[i] > score_samples_team2[i]) {
+                    winPercentage["team1Win"] = winPercentage["team1Win"] + 100. / nSamples
+                }
+                else {
+                    winPercentage["team2Win"] = winPercentage["team2Win"] + 100. / nSamples
+                }
+            }
+        }
+        for (key in winPercentage) {winPercentage[key] = Math.round(winPercentage[key])}
+        tabulate([winPercentage], ["team1Win", "draw", "team2Win"], remove=true)
+        console.log(winPercentage)
+
         dataToTabulate = [];
         for (k in keysSorted) {
             key = keysSorted[k]
@@ -124,6 +147,6 @@ d3.json("/assets/data/wc_team_latents.json", function(error, data) {
                 });
             }
         }
-        tabulate(dataToTabulate, ["result", "prob"])
+        tabulate(dataToTabulate, ["result", "prob"], remove=false)
     }
 });
