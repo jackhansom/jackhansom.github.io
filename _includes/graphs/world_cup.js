@@ -52,7 +52,7 @@ d3.json("/assets/data/wc_team_latents.json", function(error, data) {
         for (year in data[team]) {
             selData.push({
                 y:data[team][year][selAttribute],
-                x:parseInt(year) + 2,  // year is the start year of model training period, so add 2 to get middle year
+                x:parseInt(year),
                 e:data[team][year][selAttributeErr]
             });
         }

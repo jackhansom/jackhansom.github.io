@@ -73,16 +73,17 @@ d3.json("/assets/data/wc_team_latents.json", function(error, data) {
         selectTeamValue1 = d3.selectAll('select').filter(".selectTeam1").property('value');
         selectTeamValue2 = d3.selectAll('select').filter(".selectTeam2").property('value');
 
-        att_mean_team1 = data[selectTeamValue1]["2014"]["att_mean"];
-        att_std_team1 = data[selectTeamValue1]["2014"]["att_std"];
-        def_mean_team1 = data[selectTeamValue1]["2014"]["def_mean"];
-        def_std_team1 = data[selectTeamValue1]["2014"]["def_std"];
+        yearOfInterest = "2018"
+        att_mean_team1 = data[selectTeamValue1][yearOfInterest]["att_mean"];
+        att_std_team1 = data[selectTeamValue1][yearOfInterest]["att_std"];
+        def_mean_team1 = data[selectTeamValue1][yearOfInterest]["def_mean"];
+        def_std_team1 = data[selectTeamValue1][yearOfInterest]["def_std"];
 
 
-        att_mean_team2 = data[selectTeamValue2]["2014"]["att_mean"];
-        att_std_team2 = data[selectTeamValue2]["2014"]["att_std"];
-        def_mean_team2 = data[selectTeamValue2]["2014"]["def_mean"];
-        def_std_team2 = data[selectTeamValue2]["2014"]["def_std"];
+        att_mean_team2 = data[selectTeamValue2][yearOfInterest]["att_mean"];
+        att_std_team2 = data[selectTeamValue2][yearOfInterest]["att_std"];
+        def_mean_team2 = data[selectTeamValue2][yearOfInterest]["def_mean"];
+        def_std_team2 = data[selectTeamValue2][yearOfInterest]["def_std"];
 
         score_samples_team1 = [];
         score_samples_team2 = [];
