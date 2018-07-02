@@ -96,8 +96,8 @@ d3.json("/assets/data/wc_team_latents.json", function(error, data) {
             att_sample_team2 = jstat.normal(att_mean_team2, att_std_team2).sample();
             def_sample_team2 = jstat.normal(def_mean_team2, def_std_team2).sample();
 
-            rate_team_1 = att_sample_team1 - def_sample_team1;
-            rate_team_2 = att_sample_team2 - def_sample_team2;
+            rate_team_1 = att_sample_team1 - def_sample_team2;
+            rate_team_2 = att_sample_team2 - def_sample_team1;
 
             rate_team_1 = Math.exp(rate_team_1)
             rate_team_2 = Math.exp(rate_team_2)
